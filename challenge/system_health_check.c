@@ -41,7 +41,6 @@ void remote_system_health_check() {
         system("top -b -n 1");
     } else {
         puts("Wrong password!\n");
-        _exit(0);
     }
 }
 
